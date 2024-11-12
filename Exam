@@ -1,0 +1,92 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Exam {
+    private JFrame frame;
+    private JLabel questionLabel;
+    private JRadioButton[] options;
+    private JButton nextButton;
+    private ButtonGroup optionGroup;
+    private List<Question> questions;
+    private int currentQuestionIndex = 0;
+    private int score = 0;
+
+    public Exam() {
+        questions = new ArrayList<>();
+        questions.add(new Question("What is 2 + 2?", new String[]{"3", "4", "5", "6"}, "4"));
+        questions.add(new Question("What is the capital of France?", new String[]{"Berlin", "Madrid", "Paris", "Rome"}, "Paris"));
+        questions.add(new Question("What is the color of the sky?", new String[]{"Blue", "Green", "Red", "Yellow"}, "Blue"));
+
+        frame = new JFrame("Exam");
+        frame.setSize(400, 300);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new GridLayout(6, 1));
+
+        questionLabel = new JLabel();
+        frame.add(questionLabel);
+
+        options = new JRadioButton[4];
+        optionGroup = new ButtonGroup();
+        for (int i = 0; i < 4; i++) {
+            options[i] = new JRadioButton();
+            optionGroup.add(options[i]);
+            frame.add(options[i]);
+        }
+
+        nextButton = new JButton("Next");
+        nextButton.addActionListener(new NextAction());
+        frame.add(nextButton);
+    }
+
+    // The start method to show the exam frame
+    public void start() {
+        displayQuestion();
+        frame.setVisible(true);
+    }
+
+    private void displayQuestion() {
+        if (currentQuestionIndex < questions.size()) {
+            Question question = questions.get(currentQuestionIndex);
+            questionLabel.setText("Q" + (currentQuestionIndex + 1) + ": " + question.getQuestionText());
+
+            String[] choices = question.getOptions();
+            for (int i = 0; i < options.length; i++) {
+                options[i].setText(choices[i]);
+                options[i].setSelected(false);
+            }
+        } else {
+            displayResults();
+        }
+    }
+
+    private void displayResults() {
+        frame.dispose();
+        JOptionPane.showMessageDialog(null, "Exam Over! Your score is: " + score + "/" + questions.size());
+    }
+
+    private class NextAction implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Question currentQuestion = questions.get(currentQuestionIndex);
+            String selectedAnswer = null;
+
+            for (JRadioButton option : options) {
+                if (option.isSelected()) {
+                    selectedAnswer = option.getText();
+                    break;
+                }
+            }
+
+            if (selectedAnswer != null && selectedAnswer.equals(currentQuestion.getCorrectAnswer())) {
+                score++;
+            }
+
+            currentQuestionIndex++;
+            displayQuestion();
+        }
+    }
+}
