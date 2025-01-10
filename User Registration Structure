@@ -1,0 +1,13 @@
+/User RegistrationApp
+├── src
+│   ├── main
+│   │   └── java
+│   │       └── com
+│   │           └── example
+│   │               ├── UserRegistrationApp.java
+│   │               ├── model
+│   │               │   └── User.java
+│   │               └── view
+│   │                   └── RegistrationForm.java
+├── README.md
+└── pom.xml
