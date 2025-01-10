@@ -1,0 +1,13 @@
+package com.example;
+
+import javax.swing.SwingUtilities;
+import com.example.view.RegistrationForm;
+
+public class UserRegistrationApp {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            RegistrationForm form = new RegistrationForm();
+            form.setVisible(true);
+        });
+    }
+}
