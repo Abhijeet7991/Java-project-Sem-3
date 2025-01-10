@@ -1,0 +1,31 @@
+package com.example.service;
+
+import com.example.model.User;
+
+import java.util.regex.Pattern;
+
+public class UserService {
+    private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@(.+)$";
+
+    public boolean registerUser (User user) {
+        if (validateUser (user)) {
+            // Here you would typically save the user to a database
+            return true; // Registration successful
+        }
+        return false; // Registration failed
+    }
+
+    private boolean validateUser (User user) {
+        return validateName(user.getName()) && validateEmail(user.getEmail()) && validatePassword(user.getPassword());
+    }
+
+    private boolean validateName(String name) {
+        return name != null && !name.trim().isEmpty();
+    }
+
+    private boolean validateEmail(String email) {
+        return email != null && Pattern.matches(EMAIL_REGEX, email);
+    }
+
+    private boolean validatePassword(String password) {
+        return password != null
