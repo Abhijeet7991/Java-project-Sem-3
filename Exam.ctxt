@@ -1,0 +1,11 @@
+#BlueJ class context
+comment0.target=Exam
+comment1.params=
+comment1.target=Exam()
+comment2.params=
+comment2.target=void\ start()
+comment3.params=
+comment3.target=void\ displayQuestion()
+comment4.params=
+comment4.target=void\ displayResults()
+numComments=5

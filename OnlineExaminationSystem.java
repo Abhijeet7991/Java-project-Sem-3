@@ -1,0 +1,66 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
+
+public class OnlineExaminationSystem {
+    private JFrame frame;
+    private JTextField usernameField;
+    private JPasswordField passwordField;
+    private Exam exam;
+
+    // In-memory user data (username -> password)
+    private Map<String, String> users = new HashMap<>();
+
+    public OnlineExaminationSystem() {
+        users.put("student1", "password1");
+        users.put("student2", "password2");
+
+        frame = new JFrame("Online Examination System");
+        frame.setSize(400, 200);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new GridLayout(3, 2));
+
+        JLabel userLabel = new JLabel("Username:");
+        usernameField = new JTextField();
+        JLabel passLabel = new JLabel("Password:");
+        passwordField = new JPasswordField();
+
+        JButton loginButton = new JButton("Login");
+        loginButton.addActionListener(new LoginAction());
+
+        frame.add(userLabel);
+        frame.add(usernameField);
+        frame.add(passLabel);
+        frame.add(passwordField);
+        frame.add(loginButton);
+
+        frame.setVisible(true);
+    }
+
+    private class LoginAction implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String username = usernameField.getText();
+            String password = new String(passwordField.getPassword());
+
+            if (authenticate(username, password)) {
+                frame.dispose();
+                exam = new Exam();
+                exam.start();
+            } else {
+                JOptionPane.showMessageDialog(frame, "Invalid login. Try again.");
+            }
+        }
+    }
+
+    private boolean authenticate(String username, String password) {
+        return users.containsKey(username) && users.get(username).equals(password);
+    }
+
+    public static void main(String[] args) {
+        new OnlineExaminationSystem();
+    }
+}
